@@ -17,7 +17,7 @@ const Profile = () => {
 	const dispatch = useDispatch();
 	const { followingList, followerList, hasMoreFollower, hasMoreFollowing } = useSelector(state => state.user);
   	const { mainPosts } = useSelector(state => state.post);
-
+	
   	const onUnfollow = useCallback(userId => () => {
     	dispatch({
       		type: UNFOLLOW_USER_REQUEST,

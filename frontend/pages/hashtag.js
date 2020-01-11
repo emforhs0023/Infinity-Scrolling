@@ -5,8 +5,29 @@ import PostCard from '../components/PostCard';
 
 const Hashtag = ({tag}) => {
 	const dispatch = useDispatch()
-	const { mainPosts } = useSelector(state => state.post);
+	const { mainPosts, hasMorePost } = useSelector(state => state.post);
 
+	const onScroll = useCallback(() => {
+	    if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
+	        
+	      if (hasMorePost) {
+	        const lastId = mainPosts[mainPosts.length - 1].id;
+
+	            dispatch({
+	                type: LOAD_HASHTAG_POSTS_REQUEST,
+	                lastId,
+	            });
+
+	      	}
+	    }
+	}, [hasMorePost, mainPosts.length]);
+	
+	useEffect(() => {
+	    window.addEventListener('scroll', onScroll);
+	    return () => {
+			window.removeEventListener('scroll', onScroll);
+	    };
+	}, [mainPosts.length]);
 	return (
 		<div>
 			{mainPosts.map(c => (

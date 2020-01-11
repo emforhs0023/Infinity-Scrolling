@@ -9,6 +9,8 @@ export const initialState = {
     isAddingComment: false,
     addCommentErrorReason: '',
     commentAdded: false,
+    hasMorePost: false,
+    
 }; // 유저 정보만 담고 있는 store
 
 export const LOAD_MAIN_POSTS_REQUEST = 'LOAD_MAIN_POSTS_REQUEST';
@@ -200,7 +202,8 @@ const reducer = (state = initialState, action) => {
         case LOAD_USER_POSTS_REQUEST: {
             return {
                 ...state,
-                mainPosts: [],
+                mainPosts: !action.lastId ? [] : state.mainPosts,
+                hasMorePost : action.lastId ? state.hasMorePost : true,
             };
         }
         case LOAD_MAIN_POSTS_SUCCESS:
@@ -208,7 +211,9 @@ const reducer = (state = initialState, action) => {
         case LOAD_USER_POSTS_SUCCESS: {
             return {
                 ...state,
-                mainPosts: action.data,
+                mainPosts: state.mainPosts.concat(action.data),
+                hasMorePost: action.data.length === 10,
+
             };
         }
         case LOAD_MAIN_POSTS_FAILURE:

@@ -191,7 +191,7 @@ function* watchUnfollow() {
   yield takeEvery(UNFOLLOW_USER_REQUEST, unfollow);
 }
 
-function loadFollowersAPI(userId, offset = 0, limit = 3) {
+function loadFollowersAPI(userId, offset = 0, limit = 3) { // limit 으로 3을 설정
   // 서버에 요청을 보내는 부분
   return axios.get(`/user/${userId || 0}/followers?offset=${offset}&limit=${limit}`, {
     withCredentials: true,
